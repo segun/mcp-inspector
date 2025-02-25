@@ -20,7 +20,7 @@ import { startOAuthFlow, refreshAccessToken } from "../auth";
 import { SESSION_KEYS } from "../constants";
 import { Notification, StdErrNotificationSchema } from "../notificationTypes";
 
-const DEFAULT_REQUEST_TIMEOUT_MSEC = 10000;
+const DEFAULT_REQUEST_TIMEOUT_MSEC = 300_000; // 5 minutes
 
 interface UseConnectionOptions {
   transportType: "stdio" | "sse";
