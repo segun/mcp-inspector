@@ -11,7 +11,7 @@ import {
   Tool,
   CallToolResultSchema,
 } from "@modelcontextprotocol/sdk/types.js";
-import { AlertCircle, Send } from "lucide-react";
+import { AlertCircle, Loader2, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import ListPane from "./ListPane";
 
@@ -39,9 +39,19 @@ const ToolsTab = ({
   error: string | null;
 }) => {
   const [params, setParams] = useState<Record<string, unknown>>({});
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setParams({});
+    // Optionally reset loading when a new tool is selected
+    setLoading(false);
   }, [selectedTool]);
+
+  useEffect(() => {
+    if (toolResult) {
+      setLoading(false);
+    }
+  }, [toolResult]);
 
   const renderToolResult = () => {
     if (!toolResult) return null;
@@ -245,10 +255,19 @@ const ToolsTab = ({
                   );
                 },
               )}
-              <Button onClick={() => callTool(selectedTool.name, params)}>
-                <Send className="w-4 h-4 mr-2" />
-                Run Tool
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button
+                  onClick={() => {
+                    setLoading(true);
+                    callTool(selectedTool.name, params);
+                  }}
+                  disabled={loading}
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  Run Tool
+                </Button>
+                {loading && <Loader2 className="animate-spin w-4 h-4" />}
+              </div>
               {toolResult && renderToolResult()}
             </div>
           ) : (
