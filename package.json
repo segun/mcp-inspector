@@ -7,6 +7,7 @@
   "homepage": "https://modelcontextprotocol.io",
   "bugs": "https://github.com/modelcontextprotocol/inspector/issues",
   "type": "module",
+  "private": true,
   "bin": {
     "mcp-inspector": "./bin/cli.js"
   },
