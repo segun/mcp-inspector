@@ -46,21 +46,12 @@ import Sidebar from "./components/Sidebar";
 import ToolsTab from "./components/ToolsTab";
 
 const params = new URLSearchParams(window.location.search);
-const PROXY_PORT = params.get("proxyPort") ?? "3000";
-const PROXY_SERVER_URL = `http://localhost:${PROXY_PORT}`;
+// const PROXY_PORT = params.get("proxyPort") ?? "3000";
+const PROXY_SERVER_URL = `https://mcp-inspector-1.onrender.com`;
 
 const App = () => {
   // Handle OAuth callback route
-  if (window.location.pathname === "/oauth/callback") {
-    const OAuthCallback = React.lazy(
-      () => import("./components/OAuthCallback"),
-    );
-    return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <OAuthCallback />
-      </Suspense>
-    );
-  }
+
   const [resources, setResources] = useState<Resource[]>([]);
   const [resourceTemplates, setResourceTemplates] = useState<
     ResourceTemplate[]
@@ -365,6 +356,17 @@ const App = () => {
   const handleRootsChange = async () => {
     await sendNotification({ method: "notifications/roots/list_changed" });
   };
+
+  if (window.location.pathname === "/oauth/callback") {
+    const OAuthCallback = React.lazy(
+      () => import("./components/OAuthCallback"),
+    );
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <OAuthCallback />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-background">
